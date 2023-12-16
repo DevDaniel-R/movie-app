@@ -233,7 +233,13 @@ async function displaySlider() {
         `;
 
         document.querySelector('.swiper-wrapper').appendChild(div);
+
+        initSwiper();
     } );
+}
+
+function initSwiper() {
+    
 }
 
 // Fetch data from TMDB API
