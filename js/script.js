@@ -321,6 +321,7 @@ function init() {
             console.log('TV Details');
             break;
         case '/search.html':
+            search();
             console.log('Search');
             break;
     }
