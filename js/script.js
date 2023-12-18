@@ -1,5 +1,15 @@
 const global = {
     currentPage: window.location.pathname,
+    search: {
+        term: '',
+        type: '',
+        page: 1,
+        totalPages: 1
+    },
+    api: {
+        apiKey: '20d84c69e13a85bb793045d16f7b7d5e',
+        apiUrl: 'https://api.themoviedb.org/3/'
+    }
 };
 
 
@@ -215,6 +225,23 @@ function displayBackgroundImage(type, backgroundPath) {
     }
 } 
 
+// Search Movies/Shows
+async function search() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+
+    global.search.type = urlParams.get('type');
+    global.search.type = urlParams.get('term');
+
+    if(global.search.term !== '' && global.search.term !== null) {
+        const results = await searchAPIData();
+        console.log(results);
+        // @todo make request and display results
+    } else {
+        alert('Please enter a search term')
+    }
+}
+
 // Display Slider Movies
 async function displaySlider() {
     const { results } = await fetchAPIData ('movie/now_playing');
@@ -238,6 +265,7 @@ async function displaySlider() {
     } );
 }
 
+// Swiper settings
 function initSwiper() {
     const swiper = new Swiper('.swiper', {
         slidesPerView: 1,
@@ -264,8 +292,9 @@ function initSwiper() {
 
 // Fetch data from TMDB API
 async function fetchAPIData(endpoint) {
-    const API_KEY = '20d84c69e13a85bb793045d16f7b7d5e';
-    const API_URL = 'https://api.themoviedb.org/3/';
+    const API_KEY = global.api.apiKey;
+    const API_URL = global.api.apiKey;
+
 
     showSpinner();
 
@@ -299,6 +328,16 @@ function highlightLink() {
 function addCommasToNumber(number) {
 
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+}
+
+// Show Alert
+function showAlert(message, className) {
+    const alertEl = document.createElement('div');
+    alertEl.classList.add('alert', className);
+    alertEl.appendChild(document.createTextNode(message));
+    document.querySelector('#alert').appendChild(alertEl);
+
+    setTimeout(() => alertEl.remove(), 3000);
 }
 
 //Init App
