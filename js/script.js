@@ -231,7 +231,7 @@ async function search() {
     const urlParams = new URLSearchParams(queryString);
 
     global.search.type = urlParams.get('type');
-    global.search.type = urlParams.get('term');
+    global.search.term = urlParams.get('search-term');
 
     if(global.search.term !== '' && global.search.term !== null) {
         const results = await searchAPIData();
@@ -293,12 +293,29 @@ function initSwiper() {
 // Fetch data from TMDB API
 async function fetchAPIData(endpoint) {
     const API_KEY = global.api.apiKey;
-    const API_URL = global.api.apiKey;
+    const API_URL = global.api.apiUrl;
 
 
     showSpinner();
 
     const response = await fetch(`${API_URL}${endpoint}?api_key=${API_KEY}&language=en-US`)
+
+    const data = await response.json();
+
+    hideSpinner();
+
+    return data;
+}
+
+// Maker request to search
+async function searchAPIData(endpoint) {
+    const API_KEY = global.api.apiKey;
+    const API_URL = global.api.apiUrl;
+
+
+    showSpinner();
+
+    const response = await fetch(`${API_URL}search/${global.search.type}?api_key=${API_KEY}&language=en-US&query=${global.search.term}`)
 
     const data = await response.json();
 
