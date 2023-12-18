@@ -234,11 +234,14 @@ async function search() {
     global.search.term = urlParams.get('search-term');
 
     if(global.search.term !== '' && global.search.term !== null) {
-        const results = await searchAPIData();
-        console.log(results);
-        // @todo make request and display results
+        const { results, total_pages, page } = await searchAPIData();
+
+    if (results.length === 0) {
+        showAlert();
+    }
+
     } else {
-        alert('Please enter a search term')
+        showAlert('Please enter a search term')
     }
 }
 
@@ -307,7 +310,7 @@ async function fetchAPIData(endpoint) {
     return data;
 }
 
-// Maker request to search
+// Make request to search
 async function searchAPIData(endpoint) {
     const API_KEY = global.api.apiKey;
     const API_URL = global.api.apiUrl;
