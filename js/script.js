@@ -321,14 +321,14 @@ function displayPagination() {
         document.querySelector('#next').disabled = true;
     }
 
-    // Next Page 
+    // Next Page increment
     document.querySelector('#next').addEventListener('click', async () => {
         global.search.page ++;
         const { results, total_pages } = await searchAPIData();
         displaySearchResults(results);
     });
 
-    // Previous Page 
+    // Previous Page decrement
     document.querySelector('#prev').addEventListener('click', async () => {
         global.search.page --;
         const { results, total_pages } = await searchAPIData();
